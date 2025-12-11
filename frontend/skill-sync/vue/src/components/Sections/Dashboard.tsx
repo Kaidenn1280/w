@@ -67,7 +67,7 @@ const DashboardSection = ({ isActive, onGoToSubmit }: Props) => {
                 </span>
                 <span className="badge difficulty">Beginner</span>
               </div>
-              <FavoriteButton />
+              <FavoriteButton id={1} type="video" />
             </div>
             <div className="card-body">
               <h3 className="card-title">Algebra I Foundations</h3>
@@ -96,7 +96,7 @@ const DashboardSection = ({ isActive, onGoToSubmit }: Props) => {
                 </span>
                 <span className="badge difficulty">Intermediate</span>
               </div>
-              <FavoriteButton initial />
+              <FavoriteButton id={1} type="download" />
             </div>
             <div className="card-body">
               <h3 className="card-title">OpenStax: U.S. History</h3>
@@ -130,7 +130,7 @@ const DashboardSection = ({ isActive, onGoToSubmit }: Props) => {
                 <span className="badge">Interactive</span>
                 <span className="badge difficulty">Beginner</span>
               </div>
-              <FavoriteButton />
+              <FavoriteButton id={2} type="video" />
             </div>
             <div className="card-body">
               <h3 className="card-title">Web Dev Bootcamp: HTML &amp; CSS</h3>
