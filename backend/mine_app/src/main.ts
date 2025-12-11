@@ -7,10 +7,16 @@ async function bootstrap() {
 
   const app = await NestFactory.create(AppModule);
 
+  // CORS configuration - allow frontend URLs
   app.enableCors({
-    origin: 'http://localhost:5173', // your React app
+    origin: process.env.CORS_ORIGIN || '*', // Configure in production
+    credentials: true,
   });
 
-  await app.listen(3000);
+  // Use PORT from environment variable (Railway provides this)
+  const port = process.env.PORT || 3000;
+  await app.listen(port);
+  console.log(`🚀 Server running on port ${port}`);
 }
 bootstrap();
+
