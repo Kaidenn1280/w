@@ -1,5 +1,7 @@
 // src/components/layout/Navbar.tsx
 import type { PageId } from "../../Types/navigation";
+import { useAuth } from "../../context/AuthContext";
+import ProfileDropdown from "./ProfileDropdown";
 
 type NavbarProps = {
   activePage: PageId;
@@ -7,6 +9,7 @@ type NavbarProps = {
   onNavClick: (page: PageId) => void;
   onToggleTheme: () => void;
   onOpenLogin: () => void;
+  onOpenProfile?: () => void;
 };
 
 const Navbar = ({
@@ -15,7 +18,10 @@ const Navbar = ({
   onNavClick,
   onToggleTheme,
   onOpenLogin,
+  onOpenProfile,
 }: NavbarProps) => {
+  const { isAuthenticated } = useAuth();
+
   return (
     <header>
       <div className="navbar">
@@ -44,9 +50,8 @@ const Navbar = ({
           <li>
             <a
               href="#"
-              className={`nav-link ${
-                activePage === "dashboard" ? "active" : ""
-              }`}
+              className={`nav-link ${activePage === "dashboard" ? "active" : ""
+                }`}
               onClick={(e) => {
                 e.preventDefault();
                 onNavClick("dashboard");
@@ -58,9 +63,8 @@ const Navbar = ({
           <li>
             <a
               href="#"
-              className={`nav-link ${
-                activePage === "videos" ? "active" : ""
-              }`}
+              className={`nav-link ${activePage === "videos" ? "active" : ""
+                }`}
               onClick={(e) => {
                 e.preventDefault();
                 onNavClick("videos");
@@ -72,9 +76,8 @@ const Navbar = ({
           <li>
             <a
               href="#"
-              className={`nav-link ${
-                activePage === "downloads" ? "active" : ""
-              }`}
+              className={`nav-link ${activePage === "downloads" ? "active" : ""
+                }`}
               onClick={(e) => {
                 e.preventDefault();
                 onNavClick("downloads");
@@ -86,9 +89,8 @@ const Navbar = ({
           <li>
             <a
               href="#"
-              className={`nav-link ${
-                activePage === "community" ? "active" : ""
-              }`}
+              className={`nav-link ${activePage === "community" ? "active" : ""
+                }`}
               onClick={(e) => {
                 e.preventDefault();
                 onNavClick("community");
@@ -111,9 +113,8 @@ const Navbar = ({
           </button>
           <a
             href="#"
-            className={`nav-link ${
-              activePage === "favorites" ? "active" : ""
-            }`}
+            className={`nav-link ${activePage === "favorites" ? "active" : ""
+              }`}
             onClick={(e) => {
               e.preventDefault();
               onNavClick("favorites");
@@ -121,13 +122,21 @@ const Navbar = ({
           >
             <i className="far fa-heart" /> Favorites
           </a>
-          <button
-            className="btn btn-primary"
-            type="button"
-            onClick={onOpenLogin}
-          >
-            Login
-          </button>
+
+          {/* Conditional rendering: Show profile dropdown if authenticated, otherwise show login button */}
+          {isAuthenticated ? (
+            <ProfileDropdown
+              onOpenProfile={onOpenProfile || (() => { })}
+            />
+          ) : (
+            <button
+              className="btn btn-primary"
+              type="button"
+              onClick={onOpenLogin}
+            >
+              Login
+            </button>
+          )}
         </div>
       </div>
     </header>

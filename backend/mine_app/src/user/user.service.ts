@@ -1,10 +1,16 @@
-import { Injectable, ConflictException, UnauthorizedException } from '@nestjs/common';
+import { Injectable, ConflictException, UnauthorizedException, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { User } from './user.entity';
+import { User, LoginHistoryEntry } from './user.entity';
 import { CreateUserDto } from './dto/create-user.dto';
 import { LoginUserDto } from './dto/login-user.dto';
 import * as bcrypt from 'bcrypt';
+
+// Interface for login request with optional IP/device info
+interface LoginRequest extends LoginUserDto {
+  ipAddress?: string;
+  userAgent?: string;
+}
 
 @Injectable()
 export class UserService {
@@ -14,7 +20,7 @@ export class UserService {
   ) { }
 
   async register(createUserDto: CreateUserDto): Promise<{ message: string; user: Partial<User> }> {
-    const { name, email, password } = createUserDto;
+    const { fullName, email, password, address } = createUserDto;
 
     // Check if user already exists
     const existingUser = await this.userRepo.findOne({ where: { email } });
@@ -28,9 +34,11 @@ export class UserService {
 
     // Create and save user
     const user = this.userRepo.create({
-      name,
+      fullName,
       email,
       password: hashedPassword,
+      address: address || null,
+      loginHistory: [],
     });
 
     const savedUser = await this.userRepo.save(user);
@@ -40,15 +48,16 @@ export class UserService {
       message: 'User registered successfully',
       user: {
         id: savedUser.id,
-        name: savedUser.name,
+        fullName: savedUser.fullName,
         email: savedUser.email,
+        address: savedUser.address,
         createdAt: savedUser.createdAt,
       },
     };
   }
 
-  async login(loginUserDto: LoginUserDto): Promise<{ message: string; user: Partial<User> }> {
-    const { email, password } = loginUserDto;
+  async login(loginRequest: LoginRequest): Promise<{ message: string; user: Partial<User> }> {
+    const { email, password, ipAddress, userAgent } = loginRequest;
 
     // Find user by email
     const user = await this.userRepo.findOne({ where: { email } });
@@ -62,15 +71,78 @@ export class UserService {
       throw new UnauthorizedException('Invalid email or password');
     }
 
+    // Update lastLoginAt timestamp
+    const now = new Date();
+    user.lastLoginAt = now;
+
+    // Add entry to login history (keep last 10 entries)
+    const loginEntry: LoginHistoryEntry = {
+      timestamp: now,
+      ipAddress: ipAddress || 'Unknown',
+      userAgent: userAgent || 'Unknown',
+      device: this.parseDevice(userAgent),
+    };
+
+    if (!user.loginHistory) {
+      user.loginHistory = [];
+    }
+    user.loginHistory = [loginEntry, ...user.loginHistory].slice(0, 10);
+
+    await this.userRepo.save(user);
+
     // Return user without password
     return {
       message: 'Login successful',
       user: {
         id: user.id,
-        name: user.name,
+        fullName: user.fullName,
         email: user.email,
+        address: user.address,
         createdAt: user.createdAt,
+        lastLoginAt: user.lastLoginAt,
+        loginHistory: user.loginHistory,
       },
+    };
+  }
+
+  // Get user profile by ID
+  async getProfile(userId: number): Promise<Partial<User>> {
+    const user = await this.userRepo.findOne({ where: { id: userId } });
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+
+    return {
+      id: user.id,
+      fullName: user.fullName,
+      email: user.email,
+      address: user.address,
+      createdAt: user.createdAt,
+      lastLoginAt: user.lastLoginAt,
+      loginHistory: user.loginHistory,
+    };
+  }
+
+  // Update user profile
+  async updateProfile(userId: number, updateData: Partial<User>): Promise<Partial<User>> {
+    const user = await this.userRepo.findOne({ where: { id: userId } });
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+
+    // Update allowed fields
+    if (updateData.fullName) user.fullName = updateData.fullName;
+    if (updateData.address) user.address = updateData.address;
+
+    await this.userRepo.save(user);
+
+    return {
+      id: user.id,
+      fullName: user.fullName,
+      email: user.email,
+      address: user.address,
+      createdAt: user.createdAt,
+      lastLoginAt: user.lastLoginAt,
     };
   }
 
@@ -82,5 +154,18 @@ export class UserService {
 
   async findByEmail(email: string): Promise<User | null> {
     return this.userRepo.findOne({ where: { email } });
+  }
+
+  // Helper to parse device from user agent
+  private parseDevice(userAgent?: string): string {
+    if (!userAgent) return 'Unknown Device';
+
+    if (userAgent.includes('Mobile')) return 'Mobile';
+    if (userAgent.includes('Tablet')) return 'Tablet';
+    if (userAgent.includes('Windows')) return 'Windows PC';
+    if (userAgent.includes('Mac')) return 'Mac';
+    if (userAgent.includes('Linux')) return 'Linux PC';
+
+    return 'Desktop';
   }
 }

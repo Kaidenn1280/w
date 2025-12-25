@@ -3,6 +3,7 @@ import "../styles/Home.css";
 import LoginModal from "../components/ui/LoginModal";
 import Navbar from "../components/layout/Navbar";
 import Footer from "../components/layout/Footer";
+import ProfileSidebar from "../components/layout/ProfileSidebar";
 import DashboardSection from "../components/Sections/Dashboard";
 import Video from "../components/Sections/Video.tsx";
 import DownloadsSection from "../components/Sections/Downloads";
@@ -22,6 +23,7 @@ const OpenAccess = () => {
 
   const [activePage, setActivePage] = useState<PageId>("dashboard");
   const [showLogin, setShowLogin] = useState(false);
+  const [showProfile, setShowProfile] = useState(false);
 
   const handleNavClick = (page: PageId) => {
     setActivePage(page);
@@ -34,6 +36,8 @@ const OpenAccess = () => {
 
   const handleOpenLogin = () => setShowLogin(true);
   const handleCloseLogin = () => setShowLogin(false);
+  const handleOpenProfile = () => setShowProfile(true);
+  const handleCloseProfile = () => setShowProfile(false);
 
   useEffect(() => {
     document.body.classList.toggle("dark-mode", darkMode);
@@ -48,6 +52,7 @@ const OpenAccess = () => {
         onNavClick={handleNavClick}
         onToggleTheme={handleThemeToggle}
         onOpenLogin={handleOpenLogin}
+        onOpenProfile={handleOpenProfile}
       />
 
       <DashboardSection
@@ -62,11 +67,16 @@ const OpenAccess = () => {
 
       <Footer />
 
+      {/* Login Modal */}
       {showLogin && <LoginModal onClose={handleCloseLogin} />}
+
+      {/* Profile Sidebar */}
+      <ProfileSidebar isOpen={showProfile} onClose={handleCloseProfile} />
+
+      {/* Chatbot */}
       <div className="chatbot-wrapper">
-      <GeminiChatbot />
-    </div>
-      
+        <GeminiChatbot />
+      </div>
     </>
   );
 };

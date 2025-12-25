@@ -294,3 +294,141 @@
   cursor: not-allowed;
   background: rgba(15, 23, 42, 0.4);
 }
+
+/* --- 12. Step Indicator --- */
+.step-indicator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  margin-bottom: 2rem;
+}
+
+.step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  opacity: 0.4;
+  transition: all 0.3s ease;
+}
+
+.step.active {
+  opacity: 1;
+}
+
+.step-number {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #94a3b8;
+  transition: all 0.3s ease;
+}
+
+.step.active .step-number {
+  background: linear-gradient(135deg, #06b6d4 0%, #22d3ee 100%);
+  border-color: transparent;
+  color: #0f172a;
+  box-shadow: 0 4px 15px rgba(34, 211, 238, 0.4);
+}
+
+.step-label {
+  font-size: 0.75rem;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-weight: 600;
+}
+
+.step.active .step-label {
+  color: #22d3ee;
+}
+
+.step-line {
+  width: 60px;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.1);
+  margin: 0 10px;
+  margin-bottom: 20px;
+}
+
+/* --- 13. Input Rows (for side-by-side inputs) --- */
+.input-row {
+  display: flex;
+  gap: 1rem;
+}
+
+.input-group {
+  flex: 1;
+}
+
+.input-group .login-input {
+  width: 100%;
+}
+
+/* --- 14. Button Row --- */
+.button-row {
+  display: flex;
+  gap: 1rem;
+  margin-top: 0.5rem;
+}
+
+.button-row .login-button {
+  flex: 1;
+}
+
+.button-row .login-button.flex-1 {
+  flex: 1;
+}
+
+/* --- 15. Back Button --- */
+.back-button {
+  padding: 16px 20px;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #94a3b8;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.back-button:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.2);
+  color: #fff;
+}
+
+.back-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* --- 16. Button with Icon --- */
+.login-button i {
+  margin-left: 6px;
+  font-size: 0.85rem;
+}
+
+/* --- 17. Responsive for Input Rows --- */
+@media (max-width: 480px) {
+  .input-row {
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .step-line {
+    width: 40px;
+  }
+}
