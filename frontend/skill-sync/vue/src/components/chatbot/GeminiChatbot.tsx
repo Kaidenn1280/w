@@ -22,34 +22,11 @@ const GeminiChatbot: React.FC = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
-  // Demo responses for showcase (no backend needed)
-  const getDemoResponse = (message: string): string => {
-    const lowerMessage = message.toLowerCase();
-
-    if (lowerMessage.includes("hello") || lowerMessage.includes("hi")) {
-      return "Hello! 👋 I'm a demo chatbot. In the full version, I'm powered by Google's Gemini AI. How can I help you today?";
-    }
-    if (lowerMessage.includes("how are you")) {
-      return "I'm doing great, thank you for asking! 😊 I'm here to demonstrate the chatbot functionality.";
-    }
-    if (lowerMessage.includes("what can you do") || lowerMessage.includes("help")) {
-      return "I'm an AI assistant! In the full version, I can:\n• Answer questions on various topics\n• Help with coding and technical problems\n• Assist with creative writing\n• Provide explanations and tutorials\n\nThis is a demo version for showcase purposes.";
-    }
-    if (lowerMessage.includes("skill") || lowerMessage.includes("learn")) {
-      return "SkillSync is a platform designed to help you learn new skills! 📚\n\nYou can:\n• Browse courses\n• Track your progress\n• Connect with instructors\n• Get AI-powered assistance";
-    }
-    if (lowerMessage.includes("bye") || lowerMessage.includes("goodbye")) {
-      return "Goodbye! 👋 Thanks for chatting with me. Have a great day!";
-    }
-
-    // Default response
-    return `Thanks for your message! 🤖\n\nThis is a demo response. In the production version, I would use Google's Gemini AI to provide intelligent, contextual responses to "${message}".\n\nFeel free to explore the rest of the application!`;
-  };
-
   const sendMessage = async () => {
     const text = input.trim();
     if (!text || loading) return;
 
+    // Add user message to UI immediately
     const newMessages: ChatMessage[] = [
       ...messages,
       { role: "user", content: text },
@@ -59,21 +36,38 @@ const GeminiChatbot: React.FC = () => {
     setInput("");
     setLoading(true);
 
-    // Simulate network delay for realistic feel
-    await new Promise(resolve => setTimeout(resolve, 1000 + Math.random() * 500));
-
     try {
-      // Demo mode - use mock responses
-      const demoReply = getDemoResponse(text);
+      const response = await fetch("http://localhost:3000/chat", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          message: text,
+          history: messages, // Send conversation history
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok || data.error) {
+        console.error("Chat error:", data.error || response.statusText);
+        setMessages((prev) => [
+          ...prev,
+          { role: "bot", content: "Sorry, I'm having trouble connecting right now. 😓" },
+        ]);
+        return;
+      }
+
       setMessages((prev) => [
         ...prev,
-        { role: "bot", content: demoReply },
+        { role: "bot", content: data.reply },
       ]);
     } catch (err) {
       console.error(err);
       setMessages((prev) => [
         ...prev,
-        { role: "bot", content: "Oops! Something went wrong. Please try again." },
+        { role: "bot", content: "Oops! Network error. Please check if the backend is running." },
       ]);
     } finally {
       setLoading(false);

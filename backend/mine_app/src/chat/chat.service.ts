@@ -15,8 +15,8 @@ export class ChatService {
     }
 
     const genAI = new GoogleGenerativeAI(apiKey);
-    this.model = genAI.getGenerativeModel({ model: 'gemini-2.5-flash' });
-}
+    this.model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
+  }
 
   async chat(message: string, history?: { role: string; content: string }[]) {
     const historyText = (history || [])
