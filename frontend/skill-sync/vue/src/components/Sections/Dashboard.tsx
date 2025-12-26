@@ -6,9 +6,10 @@ import FavoriteButton from "../ui/FavoriteButton";
 type Props = {
   isActive: boolean;
   onGoToSubmit: () => void;
+  searchQuery?: string;
 };
 
-const DashboardSection = ({ isActive, onGoToSubmit }: Props) => {
+const DashboardSection = ({ isActive, onGoToSubmit, searchQuery = "" }: Props) => {
   const [selectedCategory, setSelectedCategory] = useState("All");
   /* State for the Course Detail Modal (Popover) */
   const [selectedCourse, setSelectedCourse] = useState<any>(null);
@@ -165,9 +166,13 @@ const DashboardSection = ({ isActive, onGoToSubmit }: Props) => {
 
   const categories = ["All", "Math & Logic", "Computer Science", "Languages", "Humanities", "Sciences"];
 
-  const filteredCourses = selectedCategory === "All"
-    ? allCourses
-    : allCourses.filter(course => course.category === selectedCategory);
+  const filteredCourses = allCourses.filter(course => {
+    const matchesCategory = selectedCategory === "All" || course.category === selectedCategory;
+    const matchesSearch = searchQuery === "" ||
+      course.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      course.description.toLowerCase().includes(searchQuery.toLowerCase());
+    return matchesCategory && matchesSearch;
+  });
 
   return (
     <section

@@ -24,6 +24,7 @@ const OpenAccess = () => {
   const [activePage, setActivePage] = useState<PageId>("dashboard");
   const [showLogin, setShowLogin] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
 
   const handleNavClick = (page: PageId) => {
     setActivePage(page);
@@ -53,11 +54,14 @@ const OpenAccess = () => {
         onToggleTheme={handleThemeToggle}
         onOpenLogin={handleOpenLogin}
         onOpenProfile={handleOpenProfile}
+        searchQuery={searchQuery}
+        onSearchChange={setSearchQuery}
       />
 
       <DashboardSection
         isActive={activePage === "dashboard"}
         onGoToSubmit={() => handleNavClick("submit")}
+        searchQuery={searchQuery}
       />
       <Video isActive={activePage === "videos"} />
       <DownloadsSection isActive={activePage === "downloads"} />

@@ -10,6 +10,8 @@ type NavbarProps = {
   onToggleTheme: () => void;
   onOpenLogin: () => void;
   onOpenProfile?: () => void;
+  searchQuery?: string;
+  onSearchChange?: (query: string) => void;
 };
 
 const Navbar = ({
@@ -19,6 +21,8 @@ const Navbar = ({
   onToggleTheme,
   onOpenLogin,
   onOpenProfile,
+  searchQuery,
+  onSearchChange,
 }: NavbarProps) => {
   const { isAuthenticated } = useAuth();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -59,6 +63,8 @@ const Navbar = ({
             <input
               type="text"
               placeholder="Search..."
+              value={searchQuery}
+              onChange={(e) => onSearchChange?.(e.target.value)}
             />
           </div>
         </div>
