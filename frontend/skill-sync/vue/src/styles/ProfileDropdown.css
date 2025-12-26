@@ -1,7 +1,7 @@
 /* Profile Dropdown Container */
 .profile-dropdown-container {
   position: relative;
-  z-index: 100;
+  z-index: 1100;
 }
 
 /* Profile Trigger Button */
@@ -92,6 +92,7 @@
     opacity: 0;
     transform: translateY(-10px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -207,9 +208,21 @@
     padding: 8px;
   }
 
+  /* Fixed positioning for mobile to prevent overflow/cutoff */
   .profile-dropdown-menu {
-    right: -10px;
-    min-width: 260px;
+    position: fixed;
+    top: 130px;
+    /* Below the navbar */
+    left: 1rem;
+    right: 1rem;
+    min-width: auto;
+    width: auto;
+    max-width: 300px;
+    /* Prevent being too wide on tablets */
+    margin: 0 auto;
+    /* Center if max-width is hit */
+    transform: none;
+    /* Reset distinct transform if needed */
   }
 }
 

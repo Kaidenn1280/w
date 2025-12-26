@@ -1,35 +1,39 @@
 /* --- Variables --- */
 :root {
   /* LIGHT MODE - "Cool Gray" instead of warm gray */
-  --vl-bg: #f1f5f9;           
+  --vl-bg: #f1f5f9;
   --vl-card-bg: #ffffff;
-  --vl-text-main: #0f172a;    
+  --vl-text-main: #0f172a;
   --vl-text-sub: #64748b;
-  --vl-border: #cbd5e1;       
+  --vl-border: #cbd5e1;
   --vl-primary: #3b82f6;
   --vl-hover-bg: #f8fafc;
-  
+
   --vl-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -1px rgba(0, 0, 0, 0.04);
   --vl-shadow-hover: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
 }
 
 /* Dark Mode Overrides (Matches Screenshot) */
 body.dark-mode {
-  --vl-bg: #0f172a;           /* Deep Slate 900 - matches Home.css */
-  --vl-card-bg: #1e293b;      /* Slate 800 (Card) */
-  --vl-text-main: #f8fafc;    /* Slate 50 */
-  --vl-text-sub: #94a3b8;     /* Slate 400 */
+  --vl-bg: #0f172a;
+  /* Deep Slate 900 - matches Home.css */
+  --vl-card-bg: #1e293b;
+  /* Slate 800 (Card) */
+  --vl-text-main: #f8fafc;
+  /* Slate 50 */
+  --vl-text-sub: #94a3b8;
+  /* Slate 400 */
   --vl-border: #334155;
   --vl-hover-bg: #334155;
-  --vl-shadow: none;          
+  --vl-shadow: none;
   --vl-shadow-hover: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
 }
 
 /* --- Main Layout --- */
 .vid-lib-section {
-  padding: 4rem 1rem 3rem 1rem; 
+  padding: 4rem 1rem 3rem 1rem;
   background-color: var(--vl-bg);
-  background-image: 
+  background-image:
     radial-gradient(circle at 15% 25%, rgba(56, 189, 248, 0.25) 0%, rgba(56, 189, 248, 0.15) 30%, transparent 70%),
     radial-gradient(circle at 85% 75%, rgba(212, 212, 212, 0.2) 0%, rgba(212, 212, 212, 0.1) 40%, transparent 80%),
     radial-gradient(circle at 50% 50%, rgba(73, 228, 17, 0.15) 0%, rgba(73, 228, 17, 0.08) 35%, transparent 75%),
@@ -51,7 +55,7 @@ body.dark-mode {
 .vid-lib-header {
   display: flex;
   justify-content: space-between;
-  align-items: flex-end; 
+  align-items: flex-end;
   margin-bottom: 2.5rem;
   flex-wrap: wrap;
   gap: 1.5rem;
@@ -88,7 +92,7 @@ body.dark-mode {
 
 .vid-lib-search-wrapper input {
   width: 100%;
-  padding: 12px 14px 12px 40px; 
+  padding: 12px 14px 12px 40px;
   border-radius: 10px;
   border: 1px solid var(--vl-border);
   background: var(--vl-card-bg);
@@ -96,7 +100,7 @@ body.dark-mode {
   font-size: 0.95rem;
   transition: all 0.2s;
   outline: none;
-  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
 }
 
 .vid-lib-search-wrapper input:focus {
@@ -111,15 +115,18 @@ body.dark-mode {
   overflow-x: auto;
   padding-bottom: 1.5rem;
   margin-bottom: 1rem;
-  scrollbar-width: none; 
-  border-bottom: 1px solid var(--vl-border); 
+  scrollbar-width: none;
+  border-bottom: 1px solid var(--vl-border);
 }
-.vid-lib-filters::-webkit-scrollbar { display: none; } 
+
+.vid-lib-filters::-webkit-scrollbar {
+  display: none;
+}
 
 .filter-chip {
   padding: 8px 20px;
   border-radius: 20px;
-  border: 1px solid transparent; 
+  border: 1px solid transparent;
   background: transparent;
   color: var(--vl-text-sub);
   font-size: 0.95rem;
@@ -136,7 +143,7 @@ body.dark-mode {
 
 .filter-chip.active {
   background: var(--vl-text-main);
-  color: var(--vl-bg); 
+  color: var(--vl-bg);
   font-weight: 600;
 }
 
@@ -144,13 +151,13 @@ body.dark-mode {
 .vid-lib-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 2rem; 
+  gap: 2rem;
 }
 
 /* --- Card (The Box) --- */
 .vid-card {
   background: var(--vl-card-bg);
-  border: 1px solid var(--vl-border); 
+  border: 1px solid var(--vl-border);
   border-radius: 16px;
   overflow: hidden;
   display: flex;
@@ -164,7 +171,7 @@ body.dark-mode {
 /* IMPORTANT: Relies on inline style --card-accent from TSX */
 .vid-card:hover {
   transform: translateY(-5px);
-  border-color: var(--card-accent); 
+  border-color: var(--card-accent);
   box-shadow: var(--vl-shadow-hover), 0 0 20px var(--card-accent);
 }
 
@@ -188,7 +195,7 @@ body.dark-mode {
   color: white;
   opacity: 0.9;
   transition: transform 0.2s;
-  border: 1px solid rgba(255,255,255,0.3);
+  border: 1px solid rgba(255, 255, 255, 0.3);
 }
 
 .vid-level-badge {
@@ -210,7 +217,7 @@ body.dark-mode {
   position: absolute;
   top: 12px;
   left: 12px;
-  background: rgba(255,255,255,0.9);
+  background: rgba(255, 255, 255, 0.9);
   border: none;
   width: 32px;
   height: 32px;
@@ -224,8 +231,14 @@ body.dark-mode {
   transition: transform 0.2s;
   font-size: 1rem;
 }
-.vid-favorite-btn:hover { transform: scale(1.1); }
-body.dark-mode .vid-favorite-btn { background: rgba(15, 23, 42, 0.8); }
+
+.vid-favorite-btn:hover {
+  transform: scale(1.1);
+}
+
+body.dark-mode .vid-favorite-btn {
+  background: rgba(15, 23, 42, 0.8);
+}
 
 .vid-card-top {
   height: 150px;
@@ -247,11 +260,11 @@ body.dark-mode .vid-favorite-btn { background: rgba(15, 23, 42, 0.8); }
   color: white;
   opacity: 0.9;
   transition: transform 0.2s;
-  border: 1px solid rgba(255,255,255,0.3);
+  border: 1px solid rgba(255, 255, 255, 0.3);
 }
 
 .vid-card-body {
-  padding: 1.5rem; 
+  padding: 1.5rem;
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -311,7 +324,10 @@ body.dark-mode .vid-favorite-btn { background: rgba(15, 23, 42, 0.8); }
 /* --- Modal --- */
 .vid-modal-backdrop {
   position: fixed;
-  top: 0; left: 0; right: 0; bottom: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
   background: rgba(0, 0, 0, 0.6);
   backdrop-filter: blur(5px);
   z-index: 1000;
@@ -326,15 +342,22 @@ body.dark-mode .vid-favorite-btn { background: rgba(15, 23, 42, 0.8); }
   width: 100%;
   max-width: 550px;
   border-radius: 20px;
-  box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
   border: 1px solid var(--vl-border);
   overflow: hidden;
   animation: modalFadeIn 0.2s ease-out;
 }
 
 @keyframes modalFadeIn {
-  from { opacity: 0; transform: scale(0.95); }
-  to { opacity: 1; transform: scale(1); }
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 
 .vid-modal-header {
@@ -371,7 +394,10 @@ body.dark-mode .vid-favorite-btn { background: rgba(15, 23, 42, 0.8); }
   padding: 4px;
   margin-left: 1rem;
 }
-.vid-modal-close:hover { color: var(--vl-text-main); }
+
+.vid-modal-close:hover {
+  color: var(--vl-text-main);
+}
 
 .vid-modal-content {
   padding: 1.75rem;
@@ -461,4 +487,65 @@ body.dark-mode .vid-favorite-btn { background: rgba(15, 23, 42, 0.8); }
 
 .vid-btn-secondary:hover {
   background: var(--vl-bg);
+}
+
+/* --- Mobile Responsiveness --- */
+@media (max-width: 768px) {
+  .vid-lib-section {
+    padding: 2rem 1rem;
+  }
+
+  .vid-lib-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.5rem;
+  }
+
+  .vid-lib-search-wrapper {
+    max-width: 100%;
+  }
+
+  .vid-lib-grid {
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 1.5rem;
+  }
+}
+
+@media (max-width: 600px) {
+
+  /* Fix Modal Overflow on Mobile */
+  .vid-modal-panel {
+    width: 95%;
+    max-height: 90vh;
+    /* Prevent it from being taller than screen */
+    display: flex;
+    flex-direction: column;
+  }
+
+  .vid-modal-content {
+    overflow-y: auto;
+    /* Enable scrolling for content */
+    padding: 1.5rem;
+  }
+
+  .vid-modal-header {
+    padding: 1.25rem 1.5rem;
+  }
+
+  .vid-stats-row {
+    grid-template-columns: 1fr;
+    /* Stack stats vertically */
+    gap: 0.75rem;
+  }
+
+  .vid-modal-actions {
+    padding: 1.25rem;
+    flex-shrink: 0;
+    /* Keep actions visible at bottom */
+  }
+
+  /* Make buttons stack if needed, or just ensure they fit */
+  .vid-modal-actions {
+    flex-direction: row;
+  }
 }

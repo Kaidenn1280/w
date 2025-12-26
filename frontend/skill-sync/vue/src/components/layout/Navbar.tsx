@@ -1,4 +1,4 @@
-// src/components/layout/Navbar.tsx
+import { useState } from "react";
 import type { PageId } from "../../Types/navigation";
 import { useAuth } from "../../context/AuthContext";
 import ProfileDropdown from "./ProfileDropdown";
@@ -21,40 +21,57 @@ const Navbar = ({
   onOpenProfile,
 }: NavbarProps) => {
   const { isAuthenticated } = useAuth();
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  const handleLinkClick = (page: PageId) => {
+    onNavClick(page);
+    setIsMobileMenuOpen(false); // Close menu on selection
+  };
 
   return (
     <header>
       <div className="navbar">
-        <a
-          href="#"
-          className="logo"
-          onClick={(e) => {
-            e.preventDefault();
-            onNavClick("dashboard");
-          }}
-        >
-          <i className="fas fa-book-open" /> Open Access Learning
-        </a>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+          {/* Mobile Menu Toggle */}
+          <button
+            className="mobile-menu-toggle"
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            aria-label="Toggle navigation"
+          >
+            <i className={`fas ${isMobileMenuOpen ? 'fa-times' : 'fa-bars'}`} />
+          </button>
+
+          <a
+            href="#"
+            className="logo"
+            onClick={(e) => {
+              e.preventDefault();
+              handleLinkClick("dashboard");
+            }}
+          >
+            <i className="fas fa-book-open" /> Open Access Learning
+          </a>
+        </div>
 
         <div className="nav-center">
           <div className="global-search-bar">
             <i className="fas fa-search" />
             <input
               type="text"
-              placeholder="Search textbooks, videos, subjects..."
+              placeholder="Search..."
             />
           </div>
         </div>
 
-        <ul className="nav-links">
+        {/* Navigation Links - Toggled on mobile */}
+        <ul className={`nav-links ${isMobileMenuOpen ? "mobile-open" : ""}`}>
           <li>
             <a
               href="#"
-              className={`nav-link ${activePage === "dashboard" ? "active" : ""
-                }`}
+              className={`nav-link ${activePage === "dashboard" ? "active" : ""}`}
               onClick={(e) => {
                 e.preventDefault();
-                onNavClick("dashboard");
+                handleLinkClick("dashboard");
               }}
             >
               Dashboard
@@ -63,11 +80,10 @@ const Navbar = ({
           <li>
             <a
               href="#"
-              className={`nav-link ${activePage === "videos" ? "active" : ""
-                }`}
+              className={`nav-link ${activePage === "videos" ? "active" : ""}`}
               onClick={(e) => {
                 e.preventDefault();
-                onNavClick("videos");
+                handleLinkClick("videos");
               }}
             >
               Video Lesson
@@ -76,11 +92,10 @@ const Navbar = ({
           <li>
             <a
               href="#"
-              className={`nav-link ${activePage === "downloads" ? "active" : ""
-                }`}
+              className={`nav-link ${activePage === "downloads" ? "active" : ""}`}
               onClick={(e) => {
                 e.preventDefault();
-                onNavClick("downloads");
+                handleLinkClick("downloads");
               }}
             >
               Downloads
@@ -89,11 +104,10 @@ const Navbar = ({
           <li>
             <a
               href="#"
-              className={`nav-link ${activePage === "community" ? "active" : ""
-                }`}
+              className={`nav-link ${activePage === "community" ? "active" : ""}`}
               onClick={(e) => {
                 e.preventDefault();
-                onNavClick("community");
+                handleLinkClick("community");
               }}
             >
               Community
@@ -111,13 +125,14 @@ const Navbar = ({
           >
             <i className={darkMode ? "fas fa-sun" : "fas fa-moon"} />
           </button>
+
+          {/* Favorites - Hidden in main nav on mobile, usually kept in bar or moved to menu. Keeping here for now. */}
           <a
             href="#"
-            className={`nav-link ${activePage === "favorites" ? "active" : ""
-              }`}
+            className={`nav-link favorites-link ${activePage === "favorites" ? "active" : ""}`}
             onClick={(e) => {
               e.preventDefault();
-              onNavClick("favorites");
+              handleLinkClick("favorites");
             }}
           >
             <i className="far fa-heart" /> Favorites
