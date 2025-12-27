@@ -28,9 +28,10 @@ const VideosSection = ({ isActive }: VideosSectionProps) => {
   const handleOpenLesson = (e: React.MouseEvent, lesson: Lesson) => {
     const rect = e.currentTarget.getBoundingClientRect();
     // Center the popover over the card
+    // Center the popover over the card relative to viewport
     setPopoverPosition({
-      top: rect.top + window.scrollY + (rect.height / 2),
-      left: rect.left + window.scrollX + (rect.width / 2)
+      top: rect.top + (rect.height / 2),
+      left: rect.left + (rect.width / 2)
     });
     setSelectedLesson(lesson);
   };
