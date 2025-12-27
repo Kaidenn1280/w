@@ -74,56 +74,14 @@ const Navbar = ({
     <header>
       <div className="navbar">
         <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }} ref={mobileMenuRef}>
-          {/* Mobile Menu Toggle & Dropdown Container */}
-          <div className="mobile-menu-wrapper">
-            <button
-              className="mobile-menu-toggle"
-              onClick={toggleMobileMenu}
-              aria-label="Toggle navigation"
-            >
-              <i className={`fas ${isMobileMenuOpen ? 'fa-times' : 'fa-bars'}`} />
-            </button>
-
-            {/* Navigation Links - Toggled on mobile */}
-            <ul className={`nav-links ${isMobileMenuOpen ? "mobile-open" : ""}`}>
-              <li>
-                <a
-                  href="#"
-                  className={`nav-link ${activePage === "dashboard" ? "active" : ""}`}
-                  onClick={(e) => { e.preventDefault(); handleLinkClick("dashboard"); }}
-                >
-                  Dashboard
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#"
-                  className={`nav-link ${activePage === "videos" ? "active" : ""}`}
-                  onClick={(e) => { e.preventDefault(); handleLinkClick("videos"); }}
-                >
-                  Video Lesson
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#"
-                  className={`nav-link ${activePage === "downloads" ? "active" : ""}`}
-                  onClick={(e) => { e.preventDefault(); handleLinkClick("downloads"); }}
-                >
-                  Downloads
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#"
-                  className={`nav-link ${activePage === "community" ? "active" : ""}`}
-                  onClick={(e) => { e.preventDefault(); handleLinkClick("community"); }}
-                >
-                  Community
-                </a>
-              </li>
-            </ul>
-          </div>
+          {/* Mobile Menu Toggle */}
+          <button
+            className="mobile-menu-toggle"
+            onClick={toggleMobileMenu}
+            aria-label="Toggle navigation"
+          >
+            <i className={`fas ${isMobileMenuOpen ? 'fa-times' : 'fa-bars'}`} />
+          </button>
 
           {/* Mobile Settings Toggle Area */}
           <div style={{ position: 'relative' }} ref={settingsRef}>
@@ -194,6 +152,46 @@ const Navbar = ({
             />
           </div>
         </div>
+
+        {/* Navigation Links - Toggled on mobile */}
+        <ul className={`nav-links ${isMobileMenuOpen ? "mobile-open" : ""}`}>
+          <li>
+            <a
+              href="#"
+              className={`nav-link ${activePage === "dashboard" ? "active" : ""}`}
+              onClick={(e) => { e.preventDefault(); handleLinkClick("dashboard"); }}
+            >
+              Dashboard
+            </a>
+          </li>
+          <li>
+            <a
+              href="#"
+              className={`nav-link ${activePage === "videos" ? "active" : ""}`}
+              onClick={(e) => { e.preventDefault(); handleLinkClick("videos"); }}
+            >
+              Video Lesson
+            </a>
+          </li>
+          <li>
+            <a
+              href="#"
+              className={`nav-link ${activePage === "downloads" ? "active" : ""}`}
+              onClick={(e) => { e.preventDefault(); handleLinkClick("downloads"); }}
+            >
+              Downloads
+            </a>
+          </li>
+          <li>
+            <a
+              href="#"
+              className={`nav-link ${activePage === "community" ? "active" : ""}`}
+              onClick={(e) => { e.preventDefault(); handleLinkClick("community"); }}
+            >
+              Community
+            </a>
+          </li>
+        </ul>
 
         <div className="nav-actions">
           {/* Desktop Actions (Hidden on Mobile) */}
